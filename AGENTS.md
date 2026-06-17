@@ -1,5 +1,7 @@
 # AGENTS.md
 
+> **新 Agent 第一次接触本仓库？** 先读 `ONBOARDING.md`（心智模型 + 工作流）；本文是工作时的速查表。
+
 ## Project
 
 MemoPalace — self-evolving memory palace for code agents. Client-server: CLI/MCP/Hook clients talk to a Fastify server backed by SQLite+FTS5. Three-layer memory (Floor/Room metaphor): Episodic Floor (4 rooms) → Semantic Floor (3 rooms) → Procedural Floor (2 rooms, file-based), with consolidation as the core evolution mechanism.
