@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "memopalace-episodic-memory",
+  "title": "Episodic Memory",
+  "description": "Episodic memory record representing a resolved or open debug case",
+  "type": "object",
+  "required": ["id", "episodic_type", "source", "title", "status", "trigger", "context", "tags", "consolidation"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ep_(opencode_hook|manual|crawler)_[a-z0-9]+$",
+      "description": "Unique episodic memory ID"
+    },
+    "episodic_type": {
+      "type": "string",
+      "enum": ["debug_case", "api_trap", "config_trap", "dev_note"],
+      "description": "Room classification within episodic floor"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["opencode_hook", "manual", "crawler"],
+      "description": "How this episodic memory was created"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short human-readable title"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "resolved", "archived"],
+      "description": "Current status of this episodic memory"
+    },
+    "trigger": {
+      "type": "object",
+      "required": ["scenario"],
+      "properties": {
+        "error_signals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Machine-matchable error signals"
+        },
+        "error_code": {
+          "type": "string",
+          "description": "Platform-specific error code"
+        },
+        "error_message": {
+          "type": "string",
+          "description": "Raw error message or log excerpt"
+        },
+        "scenario": {
+          "type": "string",
+          "description": "What the developer was doing when the error occurred"
+        }
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "required": ["category", "root_cause", "fix_strategy", "fix_description"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "description": "Root cause classification"
+        },
+        "root_cause": {
+          "type": "string",
+          "description": "Human-readable root cause analysis"
+        },
+        "fix_strategy": {
+          "type": "string",
+          "enum": ["repair", "optimize", "workaround", "config_change", "upgrade"],
+          "description": "Type of fix applied"
+        },
+        "fix_description": {
+          "type": "string",
+          "description": "Step-by-step fix description"
+        },
+        "key_code_snippet": {
+          "type": "string",
+          "description": "Key code that fixes the issue"
+        },
+        "validation": {
+          "type": "string",
+          "description": "How to verify the fix works"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "required": ["timestamp"],
+      "properties": {
+        "observed_environment": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Devices, OS versions, API levels where this was observed"
+        },
+        "project": {
+          "type": "string",
+          "description": "Project identifier"
+        },
+        "agent_session_id": {
+          "type": "string",
+          "description": "Agent session that created this record"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this episodic memory was recorded"
+        }
+      }
+    },
+    "tags": {
+      "type": "object",
+      "required": ["keywords"],
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Search keywords for fuzzy matching"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "major", "minor", "cosmetic"],
+          "description": "Severity level"
+        },
+        "bug_type": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Bug type classifications"
+        }
+      }
+    },
+    "consolidation": {
+      "type": "object",
+      "required": ["promoted_to_semantic", "related_semantic_ids"],
+      "properties": {
+        "group_key": {
+          "type": "string",
+          "description": "Grouping key for consolidation (error_code or category::fix_strategy)"
+        },
+        "promoted_to_semantic": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this memory has been promoted to semantic layer"
+        },
+        "related_semantic_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "IDs of semantic memories derived from this episodic memory"
+        }
+      }
+    }
+  }
+}

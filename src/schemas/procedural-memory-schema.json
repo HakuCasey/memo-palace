@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "memopalace-procedural-memory",
+  "title": "Procedural Memory",
+  "description": "Procedural memory record representing automated action rules derived from semantic knowledge",
+  "type": "object",
+  "required": ["id", "name", "description", "trigger", "actions", "source_semantic_ids", "enabled", "priority", "stats"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^pm_[a-z0-9_]+$",
+      "description": "Unique procedural memory ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of this procedure"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what this procedure does"
+    },
+    "trigger": {
+      "type": "object",
+      "required": ["type", "pattern"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["error_signal", "keyword", "event", "manual"],
+          "description": "Type of trigger that activates this procedure"
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Pattern to match against for triggering"
+        },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Additional conditions that must be met"
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["search", "suggest", "notify", "auto_fix"],
+            "description": "Type of action to perform"
+          },
+          "target": {
+            "type": "string",
+            "description": "Target of the action (e.g. knowledge ID, search query)"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Additional parameters for the action"
+          }
+        }
+      },
+      "description": "Actions to perform when this procedure is triggered"
+    },
+    "source_semantic_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Semantic memory IDs this procedure was derived from"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this procedure is currently active"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Priority for ordering when multiple procedures match"
+    },
+    "stats": {
+      "type": "object",
+      "required": ["triggered_count", "success_count"],
+      "properties": {
+        "triggered_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of times this procedure has been triggered"
+        },
+        "success_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of times this procedure executed successfully"
+        },
+        "last_triggered_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this procedure was last triggered"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+node_modules/
+dist/
+*.db
+*.db-shm
+*.db-wal
+.env
+.DS_Store
+Thumbs.db
+.superpowers/
+.worktrees/
+docs/
+blogs/
+
+# Build artifacts
+*.tsbuildinfo
+
+# Dev-only scripts
+src/debug-schema.cjs
+
+# Pipeline runtime error output (regenerable)
+src/assets/pipeline/normalizer/normalized_error.jsonl
+src/assets/pipeline/filter/filtered_error.jsonl
+
+# OpenCode runtime data (install-specific)
+.opencode/plugins/
+.opencode/skills/
+.opencode/node_modules/
+.opencode/package.json
+.opencode/package-lock.json

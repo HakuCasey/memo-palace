@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "memopalace-semantic-memory",
+  "title": "Semantic Memory",
+  "description": "Semantic memory record representing consolidated knowledge from episodic memories",
+  "type": "object",
+  "required": ["id", "semantic_type", "title", "knowledge", "source_type", "source_episodic_ids", "conditions", "category", "confidence", "tags", "consolidation"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^sm_[a-z0-9_]+_[a-z0-9]+$",
+      "description": "Unique semantic memory ID"
+    },
+    "semantic_type": {
+      "type": "string",
+      "enum": ["pattern", "best_practice", "dev_specification"],
+      "description": "Room classification within semantic floor"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short human-readable title"
+    },
+    "knowledge": {
+      "type": "string",
+      "description": "Consolidated knowledge description"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["consolidated", "manual", "imported"],
+      "description": "How this semantic memory was created"
+    },
+    "source_episodic_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Episodic memory IDs that were consolidated into this semantic memory"
+    },
+    "conditions": {
+      "type": "object",
+      "required": ["applicable_context"],
+      "properties": {
+        "applicable_context": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Contexts where this knowledge is applicable"
+        },
+        "related_apis": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Related APIs or components"
+        },
+        "error_codes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Error codes this knowledge addresses"
+        }
+      }
+    },
+    "category": {
+      "type": "string",
+      "description": "Knowledge category"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for this knowledge"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags for search and categorization"
+    },
+    "consolidation": {
+      "type": "object",
+      "required": ["created_at", "match_count"],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this semantic memory was created"
+        },
+        "last_matched_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this memory was last matched in a search"
+        },
+        "match_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of times this memory has been matched"
+        }
+      }
+    }
+  }
+}
