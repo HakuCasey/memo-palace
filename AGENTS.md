@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> **新 Agent 第一次接触本仓库？** 先读 `ONBOARDING.md`（心智模型 + 工作流）；本文是工作时的速查表。
+> **新 Agent 第一次接触本仓库？** 先读 `ONBOARDING.md`（项目架构 + 工作流）；本文是工作时的速查表。
 
 ## Project
 
